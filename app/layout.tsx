@@ -1,29 +1,25 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
-
+import type { Metadata } from "next"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
-
+import "./polish.css"
+import ArtworkTransitions from "@/components/artwork-transitions"
+export const metadata: Metadata = {
+  title: "Shutabug — Art, in good company.",
+  description:
+    "Explore a world of colour. Digital paintings, stories, and art prints by Mayowa Alabi.",
+}
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
-    >
+    <html lang="en" data-scroll-behavior="smooth">
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/aiz8hql.css" />
+      </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ArtworkTransitions />
+        {children}
       </body>
     </html>
   )
