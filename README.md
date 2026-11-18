@@ -4,7 +4,7 @@ A Next.js / React Three Fiber recreation based on the reference's publicly serve
 
 ## Run
 
-From `web`, install dependencies with `npx pnpm@11 install`, then run `npm run dev`. Open the printed localhost URL.
+From `web`, install dependencies with `npx pnpm@11.28.13 install`, then run `npm run dev`. Open the printed localhost URL.
 
 Validate with `npm run typecheck` and `npm run build -- --webpack`.
 
@@ -56,3 +56,9 @@ The pinned R3F 9.8.2 dependency has a tracked pnpm patch at `patches/@react-thre
 Lists start in a hidden pending-renderer state. The WebGL layer exclusively controls animated reveals; HTML becomes visible only in DOM/reduced-motion/context-loss fallback. This avoids showing the complete HTML picture before replaying its shader reveal.
 
 Poster transitions now run in both directions. Product links to Prints, Shop, or Index, plus browser Back, resolve matching list or projected WebGL destinations. Lists restore/centre the selected row, rails select the returned print, and the index room positions the returned painting in view. Existing image proportions are preserved.
+
+## Vercel
+
+The project pins pnpm 11.28.13 in `package.json`. Keep `pnpm-lock.yaml`, `pnpm-workspace.yaml`, and `patches/` committed together. The lockfile uses pnpm 11’s patch format; pnpm 10 cannot install it with a frozen lockfile.
+
+Use the project directory as the Vercel Root Directory. Leave Install Command on automatic detection so Vercel uses the package manager pin. If an explicit install override is needed, use `npx --yes pnpm@11.28.13 install --frozen-lockfile`.
