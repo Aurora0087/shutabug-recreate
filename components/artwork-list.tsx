@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link"
+import { canUseWebGL, WEBGL_UNAVAILABLE } from "@/lib/webgl"
 import dynamic from "next/dynamic"
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { getArtworkLanding } from "@/lib/artwork-transition"
@@ -106,9 +107,9 @@ export default function ArtworkList({
     if (!element) return
     const preference = matchMedia("(prefers-reduced-motion: reduce)")
     const change = () =>
-      setEngine(
-        !preference.matches && !!window.WebGLRenderingContext ? "webgl" : "dom"
-      )
+      setEngine(!preference.matches && canUseWebGL() ? "webgl" : "dom")
+    const unavailable = () => setEngine("dom")
+    window.addEventListener(WEBGL_UNAVAILABLE, unavailable)
     change()
     preference.addEventListener("change", change)
     const previous = document.documentElement.dataset.listPage
@@ -139,6 +140,7 @@ export default function ArtworkList({
     })
     return () => {
       observer.disconnect()
+      window.removeEventListener(WEBGL_UNAVAILABLE, unavailable)
       preference.removeEventListener("change", change)
       if (previous === undefined)
         delete document.documentElement.dataset.listPage

@@ -1,5 +1,6 @@
 "use client"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import SafeCanvas from "./safe-canvas"
+import { useFrame, useThree } from "@react-three/fiber"
 import {
   Component,
   useEffect,
@@ -420,7 +421,8 @@ export default function ListMotion({
   return (
     <MotionBoundary onFallback={onFallback}>
       <div className="artwork-list-motion" aria-hidden="true">
-        <Canvas
+        <SafeCanvas
+          onUnavailable={onFallback}
           orthographic
           camera={{ position: [0, 0, 100], near: 0.1, far: 1000, zoom: 1 }}
           dpr={[1, 2]}
@@ -428,7 +430,7 @@ export default function ListMotion({
           fallback={null}
         >
           <Layer scroller={scroller} />
-        </Canvas>
+        </SafeCanvas>
       </div>
     </MotionBoundary>
   )

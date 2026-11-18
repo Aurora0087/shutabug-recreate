@@ -1,5 +1,6 @@
 "use client"
-import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber"
+import SafeCanvas from "./safe-canvas"
+import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber"
 import {
   useEffect,
   useMemo,
@@ -746,7 +747,7 @@ export default function Rotunda({ dark }: { dark: boolean }) {
       onPointerLeave={() => (drag.current = null)}
     >
       <div className="rotunda-canvas">
-        <Canvas
+        <SafeCanvas
           camera={{ far: 60, fov: 62, near: 0.1, position: [0, 1.55, 9.7] }}
           dpr={[1, 2]}
           flat
@@ -768,7 +769,7 @@ export default function Rotunda({ dark }: { dark: boolean }) {
             onReady={() => setReady(true)}
             onTip={setTip}
           />
-        </Canvas>
+        </SafeCanvas>
       </div>
       {ready && (
         <>

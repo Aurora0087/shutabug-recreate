@@ -2,6 +2,7 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import ArtworkList from "./artwork-list"
+import { canUseWebGL, WEBGL_UNAVAILABLE } from "@/lib/webgl"
 import RoomHandoff, { isHandheldARDevice } from "./room-handoff"
 const Rotunda = dynamic(() => import("./rotunda"), { ssr: false })
 const PrintLine = dynamic(() => import("./print-line"), { ssr: false })
@@ -173,7 +174,20 @@ export default function Studio() {
     window.addEventListener("keydown", key)
     return () => window.removeEventListener("keydown", key)
   }, [home])
+  useEffect(() => {
+    const unavailable = () => setView("list")
+    window.addEventListener(WEBGL_UNAVAILABLE, unavailable)
+    if (!canUseWebGL()) unavailable()
+    return () => window.removeEventListener(WEBGL_UNAVAILABLE, unavailable)
+  }, [])
   const changeView = (v: string) => {
+    if (v === "gallery" && !canUseWebGL()) {
+      setView("list")
+      setNotice(
+        "3D is unavailable in this browser. Explore the artwork in List view."
+      )
+      return
+    }
     setView(v)
     localStorage.setItem("art-view", v)
   }

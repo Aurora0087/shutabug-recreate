@@ -1,5 +1,6 @@
 "use client"
-import { Canvas, useFrame, useThree, type ThreeEvent } from "@react-three/fiber"
+import SafeCanvas from "./safe-canvas"
+import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber"
 import {
   useEffect,
   useMemo,
@@ -350,7 +351,7 @@ export default function PrintLine({
         motion.current.target = Math.round(motion.current.target)
       }}
     >
-      <Canvas
+      <SafeCanvas
         camera={{ position: [0, 0, 10], fov: 42, near: 0.1, far: 60 }}
         dpr={[1, 1.75]}
         flat
@@ -363,7 +364,7 @@ export default function PrintLine({
           items={items}
           onOpen={(i) => router.push(items[i].href)}
         />
-      </Canvas>
+      </SafeCanvas>
       <h1 className="line-title">
         {collectionSlug ? <Link href="/shop">← Prints</Link> : "Prints"}
       </h1>

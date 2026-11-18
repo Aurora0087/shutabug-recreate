@@ -1,5 +1,6 @@
 "use client"
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber"
+import SafeCanvas from "./safe-canvas"
+import { useFrame, useLoader, useThree } from "@react-three/fiber"
 import { Suspense, useEffect, useMemo, useRef } from "react"
 import * as THREE from "three"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
@@ -79,7 +80,7 @@ function Head() {
 export default function ArtistHead() {
   return (
     <div className="artist-head-canvas">
-      <Canvas
+      <SafeCanvas
         orthographic
         camera={{ position: [0, 0, 4], zoom: 100, near: 0.01, far: 10 }}
         dpr={[1, 1.75]}
@@ -88,7 +89,7 @@ export default function ArtistHead() {
         <Suspense fallback={null}>
           <Head />
         </Suspense>
-      </Canvas>
+      </SafeCanvas>
     </div>
   )
 }
